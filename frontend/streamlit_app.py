@@ -1,8 +1,10 @@
 # streamlit_app.py
+import os
 import streamlit as st
 import requests
 
-BACKEND_URL = "http://127.0.0.1:8000"
+# Read backend URL from environment so deployments can point to the public backend
+BACKEND_URL = os.getenv("BACKEND_URL", "http://127.0.0.1:8000")
 
 st.title("Meeting Summarizer (Demo)")
 uploaded_file = st.file_uploader("Upload meeting audio", type=["wav","mp3","m4a","flac"])
