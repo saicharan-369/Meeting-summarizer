@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.*
+backend/output/
+uploads/
+*.log
+.DS_Store
+.idea/
+.vscode/
+node_modules/
+.git/
