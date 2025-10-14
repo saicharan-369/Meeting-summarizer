@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Meeting Summarizer — AYITHA VENKATA SAI CHARAN</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container">
+        <h1>Meeting Summarizer</h1>
+        <p class="lede">Fast transcripts, clear summaries, and action items — built for internship demo.</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <nav class="nav">
+        <button id="nav-home" class="active">Home</button>
+        <button id="nav-login">Login</button>
+        <button id="nav-upload">Upload</button>
+        <button id="nav-profile">Profile</button>
+        <button id="nav-assignment">Assignment</button>
+      </nav>
+
+      <section id="page-home" class="page">
+        <h2>Overview</h2>
+        <p>This demo transcribes meeting audio and produces concise summaries with decisions and action items.</p>
+      </section>
+
+      <section id="page-login" class="page hidden">
+        <h2>Login</h2>
+        <label for="name">Full name</label>
+        <input id="name" type="text" placeholder="Your full name" />
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="you@example.com" />
+        <button id="btn-login">Sign in</button>
+        <div id="login-msg" class="muted"></div>
+      </section>
+
+      <section id="page-upload" class="page hidden">
+        <h2>Upload Audio</h2>
+        <input id="file" type="file" accept="audio/*" />
+        <button id="btn-upload">Upload & Process</button>
+        <div id="progress" class="muted"></div>
+
+        <h3>Transcript</h3>
+        <pre id="transcript"></pre>
+        <h3>Summary & Action Items</h3>
+        <pre id="summary"></pre>
+      </section>
+
+      <section id="page-profile" class="page hidden">
+        <h2>Profile</h2>
+        <p><strong>Owner:</strong> AYITHA VENKATA SAI CHARAN</p>
+        <p>Unthinkable Solutions — Super Dream Internship candidate</p>
+      </section>
+
+      <section id="page-assignment" class="page hidden">
+        <h2>Assignment Submission</h2>
+        <p>Submit your deployed URL or GitHub repo link below (demo only).</p>
+        <input id="assignment-link" type="url" placeholder="https://..." />
+        <button id="btn-submit-assignment">Submit</button>
+        <div id="assignment-msg" class="muted"></div>
+      </section>
+
+    </main>
+
+    <footer class="container footer">
+      <p>Owner: AYITHA VENKATA SAI CHARAN</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
