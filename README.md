@@ -10,14 +10,14 @@ Transcribe meeting audio and produce action-oriented summaries. This project dem
 
 - Input: Meeting audio files (wav, mp3, m4a, flac)
 - Output: Transcript text, concise summary, major decisions, and action items
-- Optional frontend: Streamlit UI to upload audio and view results
+- Frontend: Static HTML/CSS/JS (suitable for GitHub Pages) to upload audio and view results
 
 ## Technical Stack
 
 - Backend: FastAPI (Python)
 - ASR: OpenAI Whisper (via OpenAI API) — replaceable with other providers (Google/Azure)
 - LLM: OpenAI Chat completions
-- Frontend: Streamlit
+- Frontend: Static site (frontend/static) — suitable for GitHub Pages
 - Containerization: Docker + docker-compose (included)
 
 ## Setup
@@ -50,10 +50,12 @@ Copy-Item backend\.env.example backend\.env
 uvicorn backend.app:app --reload --host 127.0.0.1 --port 8000
 ```
 
-5. (Optional) Run frontend:
+5. (Optional) Run frontend locally (static):
 
 ```powershell
-streamlit run frontend/streamlit_app.py
+# Serve the static frontend (requires Python 3)
+python -m http.server 8501 -d frontend/static
+# Then open http://localhost:8501 in your browser
 ```
 
 6. Or run with Docker Compose (local):
@@ -87,7 +89,7 @@ Transcript:
 - GitHub repo (this repository)
 - README (this file) explaining setup, usage and prompt
 - Demo video (script provided in VIDEO_SCRIPT.md)
-- Deployed demo URL (recommended: backend on Render, frontend on Streamlit Community Cloud)
+- Deployed demo URL (recommended: backend on Render, frontend on GitHub Pages)
 
 ## Evaluation focus
 
