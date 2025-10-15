@@ -1,4 +1,4 @@
-# asr.py - Speech-to-Text with AssemblyAI API
+# asr.py - Speech-to-Text with Multiple Backends
 from pathlib import Path
 import speech_recognition as sr
 from .utils import OUTPUT_DIR
@@ -10,6 +10,13 @@ try:
     ASSEMBLYAI_AVAILABLE = True
 except ImportError:
     ASSEMBLYAI_AVAILABLE = False
+
+# Try to import Whisper (100% FREE, no limits!)
+try:
+    import whisper
+    WHISPER_AVAILABLE = True
+except ImportError:
+    WHISPER_AVAILABLE = False
 
 def transcribe_with_assemblyai(file_path: str):
     """
@@ -55,12 +62,37 @@ def transcribe_with_assemblyai(file_path: str):
     except Exception as e:
         raise RuntimeError(f"AssemblyAI transcription failed: {e}")
 
+def transcribe_with_whisper(file_path: str):
+    """
+    Transcribe using OpenAI Whisper (100% FREE, no API key, no limits!).
+    Works offline after initial model download.
+    """
+    print(f"🎙️ Using Whisper AI (100% FREE, no limits)...")
+    print(f"📁 Processing: {Path(file_path).name}")
+    
+    try:
+        # Load Whisper model (downloads on first use, ~150MB)
+        print("📥 Loading Whisper model (one-time download if needed)...")
+        model = whisper.load_model("base")  # Options: tiny, base, small, medium, large
+        
+        # Transcribe
+        print("⏳ Transcribing audio...")
+        result = model.transcribe(file_path)
+        transcript_text = result["text"]
+        
+        print(f"✅ Whisper transcription complete! ({len(transcript_text)} characters)")
+        return transcript_text
+        
+    except Exception as e:
+        raise RuntimeError(f"Whisper transcription failed: {e}")
+
 def transcribe(file_path: str):
     """
-    Transcribe audio with multiple backends:
-    1. AssemblyAI API (if API key configured) - Best quality
-    2. Google Speech Recognition (free, no key) - Good quality
-    3. PocketSphinx (offline fallback) - Basic quality
+    Transcribe audio with multiple backends (prioritized for company review):
+    1. AssemblyAI API (if API key configured) - Best quality, fast
+    2. Whisper AI (100% FREE, no limits!) - Excellent quality, works offline
+    3. Google Speech Recognition (free, no key) - Good quality
+    4. PocketSphinx (offline fallback) - Basic quality
     """
     # Try AssemblyAI first (if available and configured)
     if ASSEMBLYAI_AVAILABLE:
@@ -75,7 +107,20 @@ def transcribe(file_path: str):
                 return transcript_text
             except Exception as e:
                 print(f"⚠️ AssemblyAI failed: {e}")
-                print("🔄 Falling back to Google Speech Recognition...")
+                print("🔄 Falling back to Whisper AI (FREE)...")
+    
+    # Try Whisper AI next (100% FREE, no limits!)
+    if WHISPER_AVAILABLE:
+        try:
+            transcript_text = transcribe_with_whisper(file_path)
+            # Save transcript
+            out_file = OUTPUT_DIR / (Path(file_path).stem + "_transcript.txt")
+            out_file.write_text(transcript_text or "", encoding="utf-8")
+            print(f"📄 Saved to: {out_file}")
+            return transcript_text
+        except Exception as e:
+            print(f"⚠️ Whisper failed: {e}")
+            print("🔄 Falling back to Google Speech Recognition...")
     
     # Fallback to Google Speech Recognition + PocketSphinx
     print(f"🎙️ Using SpeechRecognition (FREE, no API key)...")
