@@ -8,6 +8,10 @@ Transcribe meeting audio and produce action-oriented summaries. This project dem
 
 ## Scope of Work
 
+## Demo video
+https://github.com/user-attachments/assets/724433b7-a6cb-414d-8a69-ee7f6e1a7679
+
+
 - Input: Meeting audio files (wav, mp3, m4a, flac)
 - Output: Transcript text, concise summary, major decisions, and action items
 - Frontend: Static HTML/CSS/JS (suitable for GitHub Pages) to upload audio and view results
