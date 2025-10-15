@@ -99,12 +99,12 @@
       <div class="upload-container">
         <div class="upload-header">
           <h2 class="section-title">Upload Audio File</h2>
-          <p class="section-subtitle">Upload a WAV file with clear speech for best results</p>
+          <p class="section-subtitle">Upload WAV, MP3, or MP4 audio files for transcription</p>
         </div>
 
         <!-- Drag & Drop Area -->
         <div class="dropzone" id="dropzone">
-          <input id="file" type="file" accept="audio/wav,audio/x-wav" style="display: none;" />
+          <input id="file" type="file" accept="audio/wav,audio/x-wav,audio/mp3,audio/mpeg,audio/mp4,video/mp4,audio/x-m4a,audio/ogg,audio/flac,audio/aac" style="display: none;" />
           <div class="dropzone-content">
             <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none">
               <path d="M7 18C4.23858 18 2 15.7614 2 13C2 10.2386 4.23858 8 7 8C7.3679 8 7.72684 8.03734 8.07398 8.10892C8.49874 5.14328 11.0127 3 14 3C17.3137 3 20 5.68629 20 9C20 9.3494 19.9661 9.69107 19.9007 10.0224C21.6956 10.4037 23 11.9973 23 13.8889C23 16.1138 21.1138 18 18.8889 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -114,7 +114,7 @@
             <h3 class="dropzone-title">Drop your audio file here</h3>
             <p class="dropzone-text">or click to browse</p>
             <button class="btn btn-outline" id="browse-btn">Browse files</button>
-            <p class="dropzone-hint">Supports: WAV files only • Max size: 100MB</p>
+            <p class="dropzone-hint">Supports: WAV, MP3, MP4, M4A, OGG, FLAC, AAC • Max size: 100MB</p>
           </div>
         </div>
 

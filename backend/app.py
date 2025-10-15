@@ -13,6 +13,7 @@ from .utils import OUTPUT_DIR
 # Import transcription and summarization functions
 from .asr import transcribe
 from .summarizer import generate_summary_and_actions
+from .audio_converter import convert_to_wav
 
 app = FastAPI(title="Meeting Summarizer API")
 
@@ -30,7 +31,8 @@ UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 @app.post("/upload-audio")
 async def upload_audio(file: UploadFile = File(...)):
     """
-    Accept audio file (wav, mp3). Returns transcript & summary.
+    Accept audio file (wav, mp3, mp4, m4a, ogg, flac, aac). Returns transcript & summary.
+    Automatically converts non-WAV files to WAV format.
     """
     filename = file.filename
     if not filename:
@@ -45,14 +47,22 @@ async def upload_audio(file: UploadFile = File(...)):
     
     print(f"✅ File saved successfully: {save_path.exists()}")
 
-    # 1. Transcribe
+    # Convert to WAV if needed (MP3, MP4, etc.)
     try:
-        absolute_path = str(save_path.absolute())
-        print(f"🎙️ Transcribing: {absolute_path}")
-        print(f"📂 File exists: {save_path.exists()}")
-        print(f"📏 File size: {save_path.stat().st_size} bytes")
+        original_path = str(save_path.absolute())
+        wav_path = convert_to_wav(original_path)
+        print(f"🎵 Audio file ready: {Path(wav_path).name}")
+    except Exception as e:
+        print(f"❌ Audio conversion error: {e}")
+        raise HTTPException(status_code=400, detail=f"Audio conversion failed: {e}")
+
+    # 1. Transcribe (use WAV file)
+    try:
+        print(f"🎙️ Transcribing: {wav_path}")
+        print(f"📂 File exists: {Path(wav_path).exists()}")
+        print(f"📏 File size: {Path(wav_path).stat().st_size} bytes")
         
-        transcript = transcribe(absolute_path)
+        transcript = transcribe(wav_path)
     except Exception as e:
         print(f"❌ Transcription error: {e}")
         import traceback
