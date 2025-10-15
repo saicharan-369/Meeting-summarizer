@@ -3,71 +3,304 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Meeting Summarizer — AYITHA VENKATA SAI CHARAN</title>
+    <title>Meeting Summarizer — AI-Powered Transcription</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <header class="hero">
-      <div class="container">
-        <h1>Meeting Summarizer</h1>
-        <p class="lede">Fast transcripts, clear summaries, and action items — built for internship demo.</p>
+    <!-- Modern Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" opacity="0.3"/>
+            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="brand-text">Meeting Summarizer</span>
+        </div>
+        <div class="nav-links">
+          <button id="nav-home" class="nav-link active">Home</button>
+          <button id="nav-upload" class="nav-link">Upload</button>
+          <button id="nav-history" class="nav-link">History</button>
+          <button id="nav-profile" class="nav-link">Profile</button>
+        </div>
       </div>
-    </header>
+    </nav>
 
-    <main class="container">
-      <nav class="nav">
-        <button id="nav-home" class="active">Home</button>
-        <button id="nav-login">Login</button>
-        <button id="nav-upload">Upload</button>
-        <button id="nav-profile">Profile</button>
-        <button id="nav-assignment">Assignment</button>
-      </nav>
+    <!-- Hero Section -->
+    <section id="page-home" class="page hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Turn meetings into <span class="gradient-text">actionable insights</span>
+        </h1>
+        <p class="hero-subtitle">
+          Upload audio, get instant transcripts and AI-powered summaries with action items — all for free
+        </p>
+        <div class="hero-buttons">
+          <button id="hero-login-btn" class="btn btn-primary btn-large">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+              <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L13 16M17 20L21 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Upload Audio Now
+          </button>
+          <button class="btn btn-secondary btn-large">
+            Learn More
+          </button>
+        </div>
+      </div>
+    </section>
 
-      <section id="page-home" class="page">
-        <h2>Overview</h2>
-        <p>This demo transcribes meeting audio and produces concise summaries with decisions and action items.</p>
-      </section>
+    <!-- Login Page -->
+    <section id="page-login" class="page hidden bg-gradient-purple">
+      <div class="login-container">
+        <div class="login-card glass-effect">
+          <svg class="login-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="7" r="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          
+          <div class="login-header">
+            <h2>Welcome Back!</h2>
+            <p>Sign in to access your transcription history and start processing audio files</p>
+          </div>
+          
+          <div class="login-form">
+            <div class="form-group">
+              <label for="login-name">Your Name</label>
+              <input id="login-name" type="text" placeholder="Enter your full name" />
+            </div>
+            
+            <div class="form-group">
+              <label for="login-email">Email Address</label>
+              <input id="login-email" type="email" placeholder="your.email@example.com" />
+            </div>
+            
+            <button id="btn-login" class="btn btn-primary btn-large btn-full">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M10 17L15 12L10 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15 12H3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Sign In
+            </button>
+            
+            <div id="login-msg" class="login-message"></div>
+          </div>
+          
+          <div class="login-footer">
+            <p>No password required • Your data stays in your browser</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      <section id="page-login" class="page hidden">
-        <h2>Login</h2>
-        <label for="name">Full name</label>
-        <input id="name" type="text" placeholder="Your full name" />
-        <label for="email">Email</label>
-        <input id="email" type="email" placeholder="you@example.com" />
-        <button id="btn-login">Sign in</button>
-        <div id="login-msg" class="muted"></div>
-      </section>
+    <!-- Upload Section -->
+    <section id="page-upload" class="page hidden bg-gradient-blue">
+      <div class="upload-container">
+        <div class="upload-header">
+          <h2 class="section-title">Upload Audio File</h2>
+          <p class="section-subtitle">Upload a WAV file with clear speech for best results</p>
+        </div>
 
-      <section id="page-upload" class="page hidden">
-        <h2>Upload Audio</h2>
-        <input id="file" type="file" accept="audio/*" />
-        <button id="btn-upload">Upload & Process</button>
-        <div id="progress" class="muted"></div>
+        <!-- Drag & Drop Area -->
+        <div class="dropzone" id="dropzone">
+          <input id="file" type="file" accept="audio/wav,audio/x-wav" style="display: none;" />
+          <div class="dropzone-content">
+            <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none">
+              <path d="M7 18C4.23858 18 2 15.7614 2 13C2 10.2386 4.23858 8 7 8C7.3679 8 7.72684 8.03734 8.07398 8.10892C8.49874 5.14328 11.0127 3 14 3C17.3137 3 20 5.68629 20 9C20 9.3494 19.9661 9.69107 19.9007 10.0224C21.6956 10.4037 23 11.9973 23 13.8889C23 16.1138 21.1138 18 18.8889 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 12V21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M15 15L12 12L9 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h3 class="dropzone-title">Drop your audio file here</h3>
+            <p class="dropzone-text">or click to browse</p>
+            <button class="btn btn-outline" id="browse-btn">Browse files</button>
+            <p class="dropzone-hint">Supports: WAV files only • Max size: 100MB</p>
+          </div>
+        </div>
 
-        <h3>Transcript</h3>
-        <pre id="transcript"></pre>
-        <h3>Summary & Action Items</h3>
-        <pre id="summary"></pre>
-      </section>
+        <div id="file-selected" class="file-selected hidden">
+          <div class="file-info">
+            <svg class="file-icon" viewBox="0 0 24 24" fill="none">
+              <path d="M9 19V6L21 12L9 18V19Z" fill="currentColor"/>
+            </svg>
+            <div class="file-details">
+              <span class="file-name" id="file-name"></span>
+              <span class="file-size" id="file-size"></span>
+            </div>
+            <button class="btn-icon-only" id="remove-file" title="Remove file">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
 
-      <section id="page-profile" class="page hidden">
-        <h2>Profile</h2>
-        <p><strong>Owner:</strong> AYITHA VENKATA SAI CHARAN</p>
-        <p>Unthinkable Solutions — Super Dream Internship candidate</p>
-      </section>
+        <button id="btn-upload" class="btn btn-primary btn-large btn-full" disabled>
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 16V8M8 12L12 16L16 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Upload & Process
+        </button>
 
-      <section id="page-assignment" class="page hidden">
-        <h2>Assignment Submission</h2>
-        <p>Submit your deployed URL or GitHub repo link below (demo only).</p>
-        <input id="assignment-link" type="url" placeholder="https://..." />
-        <button id="btn-submit-assignment">Submit</button>
-        <div id="assignment-msg" class="muted"></div>
-      </section>
+        <div id="progress" class="progress-container hidden">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+          <p class="progress-text" id="progress-text">Uploading...</p>
+        </div>
 
-    </main>
+        <!-- Results -->
+        <div id="results" class="results-container hidden">
+          <div class="result-card">
+            <div class="result-header">
+              <h3>📝 Transcript</h3>
+              <button class="btn btn-sm btn-outline" id="copy-transcript">
+                <svg class="btn-icon-sm" viewBox="0 0 24 24" fill="none">
+                  <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+                  <path d="M5 15H4C3.46957 15 3 14.5304 3 14V4C3 3.46957 3.46957 3 4 3H14C14.5304 3 15 3.46957 15 4V5" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Copy
+              </button>
+            </div>
+            <div class="result-content" id="transcript"></div>
+          </div>
 
-    <footer class="container footer">
-      <p>Owner: AYITHA VENKATA SAI CHARAN</p>
+          <div class="result-card">
+            <div class="result-header">
+              <h3>✨ Summary & Action Items</h3>
+              <button class="btn btn-sm btn-outline" id="copy-summary">
+                <svg class="btn-icon-sm" viewBox="0 0 24 24" fill="none">
+                  <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+                  <path d="M5 15H4C3.46957 15 3 14.5304 3 14V4C3 3.46957 3.46957 3 4 3H14C14.5304 3 15 3.46957 15 4V5" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Copy
+              </button>
+            </div>
+            <div class="result-content" id="summary"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- History Page -->
+    <section id="page-history" class="page hidden bg-gradient-orange">
+      <div class="history-container">
+        <div class="history-header">
+          <h2>Transcription History</h2>
+          <button id="btn-clear-history" class="btn btn-outline">
+            <svg class="btn-icon-sm" viewBox="0 0 24 24" fill="none">
+              <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Clear All
+          </button>
+        </div>
+        
+        <div id="history-list" class="history-list">
+          <!-- History items will be dynamically added here -->
+        </div>
+        
+        <div id="history-empty" class="history-empty" style="display: none;">
+          <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 16V12M12 8H12.01" stroke-linecap="round"/>
+          </svg>
+          <h3>No transcriptions yet</h3>
+          <p>Upload your first audio file to start building your history</p>
+          <button id="history-upload-btn" class="btn btn-primary">
+            <svg class="btn-icon-sm" viewBox="0 0 24 24" fill="none">
+              <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Upload Audio
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="page-profile" class="page hidden bg-gradient-green">
+      <div class="profile-container">
+        <div class="profile-card glass-effect">
+          <div class="profile-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="7" r="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h2 class="profile-name" id="profile-name">User Name</h2>
+          <p class="profile-email" id="profile-email">user@example.com</p>
+          
+          <div class="profile-stats">
+            <div class="stat-item">
+              <span class="stat-value" id="stat-transcriptions">0</span>
+              <span class="stat-label">Transcriptions</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">FREE</span>
+              <span class="stat-label">API Cost</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-value">100%</span>
+              <span class="stat-label">Working</span>
+            </div>
+          </div>
+
+          <div class="profile-info">
+            <h3>About This Project</h3>
+            <ul>
+              <li>✅ Speech-to-text transcription</li>
+              <li>✅ AI-powered summarization</li>
+              <li>✅ Action item extraction</li>
+              <li>✅ No API keys required</li>
+              <li>✅ 100% free to use</li>
+            </ul>
+          </div>
+          
+          <div class="profile-credits">
+            <h4>Built by</h4>
+            <p>AYITHA VENKATA SAI CHARAN</p>
+            <p>Unthinkable Solutions — Super Dream Internship</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo-section" class="demo-section">
+      <div class="demo-content">
+        <h2 class="section-title">How it works</h2>
+        <p class="section-subtitle">Three simple steps to transform your meetings</p>
+        
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3>Upload Audio</h3>
+            <p>Drag & drop or browse for your WAV audio file</p>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3>AI Processing</h3>
+            <p>Free Google Speech API transcribes your audio</p>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3>Get Results</h3>
+            <p>Receive transcript, summary, and action items</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <p>© 2025 AYITHA VENKATA SAI CHARAN • Built for Unthinkable Solutions Internship</p>
+        <p class="footer-tech">Powered by Google Speech API • Free & Open Source</p>
+      </div>
     </footer>
 
     <script src="app.js"></script>

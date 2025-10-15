@@ -58,7 +58,7 @@ def home_page():
     st.markdown('<div class="hero">', unsafe_allow_html=True)
     st.markdown("""
     <h1 style='margin:0'>Meeting Summarizer</h1>
-    <p style='margin-top:8px; font-size:16px'>Fast, accurate meeting transcription and concise summaries with action items and decisions — powered by OpenAI Whisper + Chat.</p>
+    <p style='margin-top:8px; font-size:16px'>Fast, accurate meeting transcription and concise summaries with action items and decisions — powered by Google Cloud Speech-to-Text.</p>
     """, unsafe_allow_html=True)
     st.markdown('</div>\n')
 

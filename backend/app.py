@@ -5,12 +5,14 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 import shutil
-from .utils import OUTPUT_DIR
-from .asr import transcribe_with_openai_whisper
-from .summarizer import generate_summary_and_actions
+# Ensure .env is loaded before importing modules that read env vars
 from dotenv import load_dotenv
-
 load_dotenv(Path(__file__).resolve().parent / ".env")
+
+from .utils import OUTPUT_DIR
+# Import transcription and summarization functions
+from .asr import transcribe
+from .summarizer import generate_summary_and_actions
 
 app = FastAPI(title="Meeting Summarizer API")
 
@@ -21,7 +23,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-UPLOAD_DIR = Path("./uploads")
+# Use absolute path for uploads directory
+UPLOAD_DIR = Path(__file__).resolve().parent.parent / "uploads"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 @app.post("/upload-audio")
@@ -33,15 +36,27 @@ async def upload_audio(file: UploadFile = File(...)):
     if not filename:
         raise HTTPException(status_code=400, detail="No file attached.")
 
-    # Save uploaded file
+    # Save uploaded file with absolute path
     save_path = UPLOAD_DIR / filename
+    print(f"📁 Saving uploaded file to: {save_path.absolute()}")
+    
     with save_path.open("wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
+    
+    print(f"✅ File saved successfully: {save_path.exists()}")
 
     # 1. Transcribe
     try:
-        transcript = transcribe_with_openai_whisper(str(save_path))
+        absolute_path = str(save_path.absolute())
+        print(f"🎙️ Transcribing: {absolute_path}")
+        print(f"📂 File exists: {save_path.exists()}")
+        print(f"📏 File size: {save_path.stat().st_size} bytes")
+        
+        transcript = transcribe(absolute_path)
     except Exception as e:
+        print(f"❌ Transcription error: {e}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"ASR failed: {e}")
 
     # 2. Summarize via LLM

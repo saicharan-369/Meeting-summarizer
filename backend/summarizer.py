@@ -1,55 +1,39 @@
 # summarizer.py
-from openai import OpenAI
-from .utils import OPENAI_API_KEY, OUTPUT_DIR
+from .utils import OUTPUT_DIR
 from pathlib import Path
 
-# Create a client using the modern OpenAI SDK
-client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else OpenAI()
 
-DEFAULT_SUMMARY_PROMPT = """
-You are a meeting summarization assistant.
-Given the meeting transcript, produce:
-1) A concise meeting summary (3-5 sentences).
-2) Major decisions (bullet list).
-3) Action items as: [Action] — [Owner] — [Due date if mentioned or assign TBD].
-4) Any open questions.
-
-Use bullet points for decisions and action items.
-Transcript:
-{transcript}
-"""
-
-
-def generate_summary_and_actions(transcript: str, model: str = "gpt-4o-mini"):
-    prompt = DEFAULT_SUMMARY_PROMPT.format(transcript=transcript)
-
-    # Use the new chat completions API on the client
+def _local_extractive_summary(transcript: str, max_sentences: int = 5) -> str:
+    """Simple extractive summarizer using TF-IDF sentence scoring."""
     try:
-        resp = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=800,
-            temperature=0.2,
-        )
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        from sklearn.metrics.pairwise import cosine_similarity
+        import numpy as np
+        import re
+    except Exception:
+        # If sklearn not available, return first N lines as a very simple fallback
+        lines = [l.strip() for l in transcript.splitlines() if l.strip()]
+        return "\n".join(lines[:max_sentences])
 
-        # The response may be an object with choices
-        content = ""
-        choices = getattr(resp, "choices", None) or resp.get("choices", [])
-        if choices:
-            first = choices[0]
-            # new SDK often places message content in first.message.content
-            msg = getattr(first, "message", None) or first.get("message")
-            if msg:
-                content = getattr(msg, "content", None) or msg.get("content", "")
-            else:
-                content = getattr(first, "text", None) or first.get("text", "")
+    # Split transcript into sentences (naive)
+    sentences = re.split(r'(?<=[.!?])\s+', transcript.strip())
+    if not sentences:
+        return ""
 
-        content = (content or "").strip()
-    except Exception as e:
-        # If the modern client call fails, surface the error
-        raise
+    vectorizer = TfidfVectorizer(stop_words='english')
+    X = vectorizer.fit_transform(sentences)
+    # score sentences by sum of TF-IDF weights
+    scores = np.asarray(X.sum(axis=1)).ravel()
+    ranked_idx = scores.argsort()[::-1]
+    top_idx = sorted(ranked_idx[:max_sentences])
+    selected = [sentences[i].strip() for i in top_idx]
+    return "\n".join(selected)
 
-    # Save output
+
+def generate_summary_and_actions(transcript: str):
+    """Generate a simple extractive summary of the transcript."""
+    content = _local_extractive_summary(transcript)
+    
     out = OUTPUT_DIR / "last_summary.txt"
-    out.write_text(content, encoding="utf-8")
+    out.write_text(content or "", encoding="utf-8")
     return content

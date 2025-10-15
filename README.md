@@ -37,11 +37,16 @@ python -m venv .venv
 pip install -r backend/requirements.txt
 ```
 
-3. Copy and fill environment:
+3. Set up Google Cloud:
+
+a. Create a Google Cloud project and enable Speech-to-Text API
+b. Create a service account and download the JSON key
+c. Copy the JSON key to `backend/google-credentials.json`
+d. Copy and set up environment:
 
 ```powershell
 Copy-Item backend\.env.example backend\.env
-# Edit backend/.env and add your OPENAI_API_KEY
+# The .env will point to google-credentials.json by default
 ```
 
 4. Run backend (from project root):
